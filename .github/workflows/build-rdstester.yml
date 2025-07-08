@@ -1,4 +1,4 @@
-name: Build RDSTester (Win32 Debug & Release)
+name: Build RDSTester (x86 Debug & Release)
 
 on:
   push:
@@ -20,33 +20,37 @@ jobs:
       uses: microsoft/setup-msbuild@v2
 
     - name: Build Debug | x86
-      run: msbuild RDSTester.sln /p:Configuration=Debug /p:Platform=x86
+      run: msbuild RDSTester.sln /p:Configuration=Debug /p:Platform=x86 /p:IncludePath="ttf_to_f16\\libs\\freetype\\include;$(IncludePath)"
 
-    - name: Copy freetype.dll to Debug
+    - name: Copy freetype.dll and freetype.lib to Debug
       run: |
         mkdir Debug
         copy "ttf_to_f16\\libs\\freetype\\release dll\\win32\\freetype.dll" Debug\\
+        copy "ttf_to_f16\\libs\\freetype\\release dll\\win32\\freetype.lib" Debug\\
 
-    - name: Upload Debug Executable and DLL
+    - name: Upload Debug Executable, DLL and LIB
       uses: actions/upload-artifact@v4
       with:
         name: RDSTester-Debug-x86
         path: |
           **/Debug/*.exe
           **/Debug/freetype.dll
+          **/Debug/freetype.lib
 
     - name: Build Release | x86
-      run: msbuild RDSTester.sln /p:Configuration=Release /p:Platform=x86
+      run: msbuild RDSTester.sln /p:Configuration=Release /p:Platform=x86 /p:IncludePath="ttf_to_f16\\libs\\freetype\\include;$(IncludePath)"
 
-    - name: Copy freetype.dll to Release
+    - name: Copy freetype.dll and freetype.lib to Release
       run: |
         mkdir Release
         copy "ttf_to_f16\\libs\\freetype\\release dll\\win32\\freetype.dll" Release\\
+        copy "ttf_to_f16\\libs\\freetype\\release dll\\win32\\freetype.lib" Release\\
 
-    - name: Upload Release Executable and DLL
+    - name: Upload Release Executable, DLL and LIB
       uses: actions/upload-artifact@v4
       with:
         name: RDSTester-Release-x86
         path: |
           **/Release/*.exe
           **/Release/freetype.dll
+          **/Release/freetype.lib
