@@ -5,6 +5,7 @@ on:
     branches: [ main ]
   pull_request:
     branches: [ main ]
+  workflow_dispatch:
 
 jobs:
   build:
@@ -23,7 +24,7 @@ jobs:
 
     - name: Copy freetype.dll to Debug
       run: |
-        mkdir -p Debug
+        mkdir Debug
         copy "ttf_to_f16\\libs\\freetype\\release dll\\win32\\freetype.dll" Debug\\
 
     - name: Upload Debug Executable and DLL
@@ -39,7 +40,7 @@ jobs:
 
     - name: Copy freetype.dll to Release
       run: |
-        mkdir -p Release
+        mkdir Release
         copy "ttf_to_f16\\libs\\freetype\\release dll\\win32\\freetype.dll" Release\\
 
     - name: Upload Release Executable and DLL
