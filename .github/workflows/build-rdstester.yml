@@ -1,4 +1,4 @@
-name: Build RDSTester (x86 Debug & Release)
+name: Build RDSTester (Win32 Debug & Release)
 
 on:
   push:
@@ -9,7 +9,7 @@ on:
 
 jobs:
   build:
-    name: Build Debug and Release (x86)
+    name: Build Debug and Release (Win32)
     runs-on: windows-latest
 
     steps:
@@ -19,8 +19,8 @@ jobs:
     - name: Setup MSBuild
       uses: microsoft/setup-msbuild@v2
 
-    - name: Build Debug | x86
-      run: msbuild RDSTester.sln /p:Configuration=Debug /p:Platform=x86
+    - name: Build Debug | Win32
+      run: msbuild RDSTester.sln /p:Configuration=Debug /p:Platform=Win32
 
     - name: Copy freetype.dll and freetype.lib to Debug
       run: |
@@ -31,14 +31,14 @@ jobs:
     - name: Upload Debug Executable, DLL and LIB
       uses: actions/upload-artifact@v4
       with:
-        name: RDSTester-Debug-x86
+        name: RDSTester-Debug-Win32
         path: |
           **/Debug/*.exe
           **/Debug/freetype.dll
           **/Debug/freetype.lib
 
-    - name: Build Release | x86
-      run: msbuild RDSTester.sln /p:Configuration=Release /p:Platform=x86
+    - name: Build Release | Win32
+      run: msbuild RDSTester.sln /p:Configuration=Release /p:Platform=Win32
 
     - name: Copy freetype.dll and freetype.lib to Release
       run: |
@@ -49,7 +49,7 @@ jobs:
     - name: Upload Release Executable, DLL and LIB
       uses: actions/upload-artifact@v4
       with:
-        name: RDSTester-Release-x86
+        name: RDSTester-Release-Win32
         path: |
           **/Release/*.exe
           **/Release/freetype.dll
