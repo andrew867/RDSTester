@@ -1,0 +1,51 @@
+name: Build RDSTester (Win32 Debug & Release)
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    name: Build Debug and Release (Win32)
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Setup MSBuild
+      uses: microsoft/setup-msbuild@v2
+
+    - name: Build Debug | Win32
+      run: msbuild RDSTester.sln /p:Configuration=Debug /p:Platform=Win32
+
+    - name: Copy freetype.dll to Debug
+      run: |
+        mkdir -p Debug
+        copy "ttf_to_f16\\libs\\freetype\\release dll\\win32\\freetype.dll" Debug\\
+
+    - name: Upload Debug Executable and DLL
+      uses: actions/upload-artifact@v4
+      with:
+        name: RDSTester-Debug-Win32
+        path: |
+          **/Debug/*.exe
+          **/Debug/freetype.dll
+
+    - name: Build Release | Win32
+      run: msbuild RDSTester.sln /p:Configuration=Release /p:Platform=Win32
+
+    - name: Copy freetype.dll to Release
+      run: |
+        mkdir -p Release
+        copy "ttf_to_f16\\libs\\freetype\\release dll\\win32\\freetype.dll" Release\\
+
+    - name: Upload Release Executable and DLL
+      uses: actions/upload-artifact@v4
+      with:
+        name: RDSTester-Release-Win32
+        path: |
+          **/Release/*.exe
+          **/Release/freetype.dll
