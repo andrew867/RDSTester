@@ -9,7 +9,7 @@ on:
 
 jobs:
   build:
-    name: Build Debug and Release (Win32)
+    name: Build Debug and Release (x86)
     runs-on: windows-latest
 
     steps:
@@ -19,8 +19,8 @@ jobs:
     - name: Setup MSBuild
       uses: microsoft/setup-msbuild@v2
 
-    - name: Build Debug | Win32
-      run: msbuild RDSTester.sln /p:Configuration=Debug /p:Platform=Win32
+    - name: Build Debug | x86
+      run: msbuild RDSTester.sln /p:Configuration=Debug /p:Platform=x86
 
     - name: Copy freetype.dll to Debug
       run: |
@@ -30,13 +30,13 @@ jobs:
     - name: Upload Debug Executable and DLL
       uses: actions/upload-artifact@v4
       with:
-        name: RDSTester-Debug-Win32
+        name: RDSTester-Debug-x86
         path: |
           **/Debug/*.exe
           **/Debug/freetype.dll
 
-    - name: Build Release | Win32
-      run: msbuild RDSTester.sln /p:Configuration=Release /p:Platform=Win32
+    - name: Build Release | x86
+      run: msbuild RDSTester.sln /p:Configuration=Release /p:Platform=x86
 
     - name: Copy freetype.dll to Release
       run: |
@@ -46,7 +46,7 @@ jobs:
     - name: Upload Release Executable and DLL
       uses: actions/upload-artifact@v4
       with:
-        name: RDSTester-Release-Win32
+        name: RDSTester-Release-x86
         path: |
           **/Release/*.exe
           **/Release/freetype.dll
